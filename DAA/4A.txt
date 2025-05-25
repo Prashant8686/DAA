@@ -1,0 +1,39 @@
+//4A)Topological DFS
+
+#include <stdio.h>
+
+#define MAX 100
+
+int adj[MAX][MAX], visited[MAX], stack[MAX], top = -1, n;
+
+void DFS(int v) {
+    visited[v] = 1;
+    for (int i = 0; i < n; i++) {
+        if (adj[v][i] && !visited[i])
+            DFS(i);
+    }
+    stack[++top] = v; // push to stack after visiting all neighbors
+}
+
+int main() {
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    printf("Enter adjacency matrix (%d x %d):\n", n, n);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &adj[i][j]);
+
+    for (int i = 0; i < n; i++)
+        visited[i] = 0;
+
+    for (int i = 0; i < n; i++)
+        if (!visited[i])
+            DFS(i);
+
+    printf("Topological Order:\n");
+    while (top != -1)
+        printf("%d ", stack[top--]);
+
+    return 0;
+}
